@@ -495,6 +495,12 @@ For Data plane spec, the allowed response status codes for a long DELETE operati
 
 Please refer to [long-running-response-status-code-data-plane.md](./long-running-response-status-code-data-plane.md) for details.
 
+### LroAzureAsyncOperationHeader
+
+Azure-AsyncOperation header must be supported for all async operations that return 202.
+
+Please refer to [lro-azure-async-operation-header.md](./lro-azure-async-operation-header.md) for details.
+
 ### LroErrorContent
 
 Error response content of long running operations must follow the error schema provided in the common types v2 and above.

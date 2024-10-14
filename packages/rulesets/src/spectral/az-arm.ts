@@ -158,6 +158,22 @@ const ruleset: any = {
       },
     },
 
+    // RPC Code: RPC-Async-V1-06
+    LroAzureAsyncOperationHeader: {
+      rpcGuidelineCode: "RPC-Async-V1-06",
+      description: "Azure-AsyncOperation header must be supported for all async operations that return 202.",
+      message: "{{description}}",
+      severity: "error",
+      formats: [oas2],
+      given: "$.paths[*][*].responses[?(@property == '202')]",
+      then: {
+        function: hasheader,
+        functionOptions: {
+          name: "Azure-AsyncOperation",
+        },
+      },
+    },
+
     // RPC Code: RPC-Async-V1-07
     LroLocationHeader: {
       rpcGuidelineCode: "RPC-Async-V1-07",
