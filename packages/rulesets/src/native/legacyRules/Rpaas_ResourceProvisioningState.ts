@@ -22,14 +22,16 @@ rules.push({
     const allResources = utils.getAllResourceNames()
     for (const resource of allResources) {
       const model = utils.getResourceByName(resource)
+      const azureResource = swaggerUtil?.getProperty(model!, "x-ms-azure-resource")
       const properties = swaggerUtil?.getProperty(model!, "properties")
+      const isAzureResource = azureResource && azureResource.value
       let hasProvisioningState = false
-      if (properties && (!properties.value.type || properties.value.type === "object")) {
+      if (isAzureResource && properties && (!properties.value.type || properties.value.type === "object")) {
         if (swaggerUtil?.getProperty(properties, "provisioningState")) {
           hasProvisioningState = true
         }
       }
-      if (!hasProvisioningState) {
+      if (isAzureResource && !hasProvisioningState) {
         yield { message: msg.replace("{0}", resource), location: ["$", "definitions", resource] as JsonPath }
       }
     }
