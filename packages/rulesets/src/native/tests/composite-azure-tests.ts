@@ -101,6 +101,13 @@ describe("CompositeAzureTests", () => {
     assertValidationRuleCount(messages, GetCollectionResponseSchema, 1)
   })
 
+  test("get collection response schema should match the ARM specification", async () => {
+    console.log("hello")
+    const fileName = "armResource/containerApps.json"
+    const messages: LintResultMessage[] = await collectTestMessagesFromValidator(fileName, OpenApiTypes.arm, GetCollectionResponseSchema)
+    assertValidationRuleCount(messages, GetCollectionResponseSchema, 0)
+  })
+
   test("all resources must have get operation", async () => {
     const fileName = "armResource/cluster.json"
     const messages: LintResultMessage[] = await collectTestMessagesFromValidator(
