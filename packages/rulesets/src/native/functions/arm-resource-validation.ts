@@ -36,7 +36,7 @@ export function* allResourcesHaveDelete(openapiSection: any, options: { isTracke
   const allResources = options.isTrackedResource ? armHelper.getTrackedResources() : armHelper.getProxyResources()
   for (const re of allResources) {
     const apiPath = re.operations.find((op: any) => op.apiPath)?.apiPath
-    if (apiPath) {
+    if (apiPath && !apiPath.toLowerCase().includes("privateendpointconnectionproxies")) {
       if ((options.isTrackedResource || armHelper.findOperation(apiPath, "put")) && !armHelper.findOperation(apiPath, "delete")) {
         yield {
           location: ["definitions", re.modelName],
@@ -53,7 +53,7 @@ export function* trackedResourcesHavePatch(openapiSection: any, options: {}, ctx
   const allTrackedResources = armHelper.getTrackedResources()
   for (const re of allTrackedResources) {
     const apiPath = re.operations.find((op: any) => op.apiPath)?.apiPath
-    if (apiPath) {
+    if (apiPath && !apiPath.toLowerCase().includes("privateendpointconnectionproxies")) {
       if (!armHelper.findOperation(apiPath, "patch")) {
         yield {
           location: ["definitions", re.modelName],

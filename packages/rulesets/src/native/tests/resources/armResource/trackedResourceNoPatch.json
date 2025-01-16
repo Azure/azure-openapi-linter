@@ -6,10 +6,14 @@
     "description": "HDInsight Management Client"
   },
   "host": "management.azure.com",
-  "schemes": ["https"],
+  "schemes": [
+    "https"
+  ],
   "security": [
     {
-      "azure_auth": ["user_impersonation"]
+      "azure_auth": [
+        "user_impersonation"
+      ]
     }
   ],
   "securityDefinitions": {
@@ -26,7 +30,9 @@
   "paths": {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}": {
       "put": {
-        "tags": ["Clusters"],
+        "tags": [
+          "Clusters"
+        ],
         "operationId": "Clusters_Update",
         "description": "Patch HDInsight cluster with the specified parameters.",
         "x-ms-examples": null,
@@ -58,11 +64,17 @@
             }
           }
         },
-        "produces": ["application/json"],
-        "consumes": ["application/json"]
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       },
       "delete": {
-        "tags": ["Clusters"],
+        "tags": [
+          "Clusters"
+        ],
         "operationId": "Clusters_Delete",
         "description": "Deletes the specified HDInsight cluster.",
         "x-ms-examples": null,
@@ -95,13 +107,19 @@
           }
         },
         "x-ms-long-running-operation": true,
-        "produces": ["application/json"],
-        "consumes": ["application/json"]
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters": {
       "get": {
-        "tags": ["Clusters"],
+        "tags": [
+          "Clusters"
+        ],
         "operationId": "Clusters_ListByResourceGroup",
         "description": "Lists the HDInsight clusters in a resource group.",
         "x-ms-examples": null,
@@ -133,8 +151,143 @@
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "produces": ["application/json"],
-        "consumes": ["application/json"]
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/privateendpointconnectionproxies/{privateendpointconnectionproxies}": {
+      "put": {
+        "tags": [
+          "privateEndpointConnectionProxies"
+        ],
+        "operationId": "privateEndpointConnectionProxies_Update",
+        "description": "Patch HDInsight privateEndpointConnectionProxies with the specified parameters.",
+        "x-ms-examples": null,
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK response definition.",
+            "schema": {
+              "$ref": "./trackedResourceCommon.json#/definitions/Cluster"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "tags": [
+          "privateEndpointConnectionProxies"
+        ],
+        "operationId": "privateEndpointConnectionProxies_Delete",
+        "description": "Deletes the specified HDInsight privateEndpointConnectionProxies.",
+        "x-ms-examples": null,
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok response definition."
+          },
+          "202": {
+            "description": "Accepted response definition."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/privateEndpointConnectionProxies": {
+      "get": {
+        "tags": [
+          "privateEndpointConnectionProxies"
+        ],
+        "operationId": "privateEndpointConnectionProxies_ListByResourceGroup",
+        "description": "Lists the HDInsight privateEndpointConnectionProxies in a resource group.",
+        "x-ms-examples": null,
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK response definition.",
+            "schema": {
+              "$ref": "#/definitions/ClusterListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
