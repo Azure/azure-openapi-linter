@@ -62,7 +62,7 @@ Please refer to [api-version-parameter-required.md](./api-version-parameter-requ
 
 ### APIVersionPattern
 
-The API Version parameter MUST be in the Year-Month-Date format (i.e. 2016-07-04.)  NOTE that this is the en-US ordering of month and date.
+The API Version parameter MUST be in the Year-Month-Date format (i.e. 2016-07-04.) or 'canonical' for canonical swagger. NOTE that this is the en-US ordering of month and date.
 The date MAY optionally be followed by one of:
 * -preview - Indicates the API version is in (public) preview
 

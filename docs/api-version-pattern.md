@@ -10,11 +10,11 @@ ARM OpenAPI(swagger) specs
 
 ## Output Message
 
-API Version must be in the format: yyyy-MM-dd, optionally followed by -preview.
+API Version must be in the format: yyyy-MM-dd, optionally followed by -preview, or 'canonical' for canonical swagger.
 
 ## Description
 
-The API Version parameter MUST be in the Year-Month-Date format (i.e. 2016-07-04.)  NOTE that this is the en-US ordering of month and date.
+The API Version parameter MUST be in the Year-Month-Date format (i.e. 2016-07-04.) or 'canonical' for canonical swagger. NOTE that this is the en-US ordering of month and date.
 
 The date MAY optionally be followed by one of:
 * -preview - Indicates the API version is in (public) preview
@@ -36,6 +36,7 @@ The API version specified wil be used by the generated client.
 Examples of valid version patterns include:
 * 2016-07-04
 * 2016-07-04-preview
+* canonical (for canonical swagger)
 
 ## Bad Examples
 
