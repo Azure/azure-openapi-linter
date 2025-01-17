@@ -32,7 +32,7 @@ The following are the only scenarios where "additionalProperties" are allowed
 ...
 ```
 
- 2. Predefined refrences such as common-types.
+ 2. Predefined references such as common-types.
 
 ```json
 ...
