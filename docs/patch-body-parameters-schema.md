@@ -12,10 +12,6 @@ ARM and Data plane OpenAPI(swagger) specs
 
 - RPC-Patch-V1-10
 
-## Output Message
-
-Properties of a PATCH request body must not be {0}. PATCH operation: '{1}' Model Definition: '{2}' Property: '{3}'
-
 ## Description
 
 A request parameter of the Patch Operation must not have a required/default/'x-ms-mutability:"create"' value.

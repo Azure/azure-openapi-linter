@@ -6,24 +6,33 @@ const patchBodyParameters = (parameters: any, _opts: any, paths: any): IFunction
   if (parameters === null || parameters.schema === undefined || parameters.in !== "body") {
     return []
   }
+
   const path = paths.path || []
 
   const properties: object = getProperties(parameters.schema)
   const requiredProperties = getRequiredProperties(parameters.schema)
   const errors = []
   for (const prop of Object.keys(properties)) {
+    // skip validation for identity property 
+    // as it refers MSI(managed service identity) from common-types
+    if (prop.toLowerCase() === "identity") {
+      continue
+    }
+
     if (properties[prop].default) {
       errors.push({
         message: `Properties of a PATCH request body must not have default value, property:${prop}.`,
         path: [...path, "schema"],
       })
     }
+
     if (requiredProperties.includes(prop)) {
       errors.push({
         message: `Properties of a PATCH request body must not be required, property:${prop}.`,
         path: [...path, "schema"],
       })
     }
+
     const xmsMutability = properties[prop]["x-ms-mutability"]
     if (xmsMutability && xmsMutability.length === 1 && xmsMutability[0] === "create") {
       errors.push({
@@ -40,8 +49,8 @@ const patchBodyParameters = (parameters: any, _opts: any, paths: any): IFunction
             in: "body",
           },
           _opts,
-          { path: [...path, "schema", "properties", prop] }
-        )
+          { path: [...path, "schema", "properties", prop] },
+        ),
       )
     }
   }

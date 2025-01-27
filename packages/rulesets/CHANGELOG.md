@@ -5,6 +5,7 @@
 ### Patches
 
 - [AllTrackedResourcesMustHaveDelete][TrackedResourcePatchOperation] Skip the api paths if it has PrivateEndpointConnectionProxy
+- [PatchBodyParametersSchema] Skip validation for MSI (managed service identity) as it is being referenced from common-types and has the required field & is being referenced in patch body parameter schema by several RP's who are having to get an exception.
 
 ### Patches
 

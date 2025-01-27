@@ -2045,6 +2045,9 @@ const patchBodyParameters = (parameters, _opts, paths) => {
     const requiredProperties = getRequiredProperties(parameters.schema);
     const errors = [];
     for (const prop of Object.keys(properties)) {
+        if (prop.toLowerCase() === "identity") {
+            continue;
+        }
         if (properties[prop].default) {
             errors.push({
                 message: `Properties of a PATCH request body must not have default value, property:${prop}.`,

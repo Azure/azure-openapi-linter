@@ -108,6 +108,84 @@ test("PatchBodyParametersSchema should find errors for required/create value", (
   })
 })
 
+test("PatchBodyParametersSchema should skip errors for MSI though has required value", () => {
+  const oasDoc = {
+    swagger: "2.0",
+    paths: {
+      "/foo": {
+        patch: {
+          tags: ["SampleTag"],
+          operationId: "Foo_Update",
+          description: "Test Description",
+          parameters: [
+            {
+              name: "foo_patch",
+              in: "body",
+              schema: {
+                $ref: "#/definitions/OpenShiftClusterUpdate",
+              },
+            },
+          ],
+          responses: {},
+        },
+      },
+    },
+    definitions: {
+      OpenShiftClusterUpdate: {
+        description: "OpenShiftCluster represents an Azure Red Hat OpenShift cluster.",
+        type: "object",
+        properties: {
+          tags: {
+            $ref: "#/definitions/Tags",
+            description: "The resource tags.",
+          },
+          identity: {
+            $ref: "#/definitions/ManagedServiceIdentity",
+            description: "Identity stores information about the cluster MSI(s) in a workload identity cluster.",
+          },
+        },
+      },
+      ManagedServiceIdentity: {
+        description: "Managed service identity (system assigned and/or user assigned identities)",
+        type: "object",
+        properties: {
+          principalId: {
+            readOnly: true,
+            format: "uuid",
+            type: "string",
+            description:
+              "The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.",
+          },
+          tenantId: {
+            readOnly: true,
+            format: "uuid",
+            type: "string",
+            description:
+              "The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.",
+          },
+          type: {
+            description: "Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).",
+            type: "string",
+          },
+          userAssignedIdentities: {
+            description:
+              "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests.",
+            type: "object",
+          },
+        },
+        required: ["type"],
+      },
+      Tags: {
+        description: "Tags represents an OpenShift cluster's tags.",
+        type: "object",
+      },
+    },
+  }
+  return linter.run(oasDoc).then((results) => {
+    expect(results.length).toBe(0)
+  })
+})
+
 test("PatchBodyParametersSchema should find errors for default value in nested body parameter", () => {
   const oasDoc = {
     swagger: "2.0",
@@ -178,7 +256,7 @@ test("PatchBodyParametersSchema should find errors for default value in nested b
   }
   return linter.run(oasDoc).then((results) => {
     expect(results.length).toBe(2)
-    results.sort((a, b) => a.path.join('.').localeCompare(b.path.join('.')));
+    results.sort((a, b) => a.path.join(".").localeCompare(b.path.join(".")))
     expect(results[0].path.join(".")).toBe("paths./bar.patch.parameters.0.schema.properties.properties")
     expect(results[0].message).toContain("Properties of a PATCH request body must not have default value, property:prop0.")
     expect(results[1].path.join(".")).toBe("paths./foo.patch.parameters.0.schema.properties.properties")
