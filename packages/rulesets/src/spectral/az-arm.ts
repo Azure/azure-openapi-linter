@@ -1,6 +1,7 @@
 import { oas2 } from "@stoplight/spectral-formats"
 import { falsy, pattern, truthy } from "@stoplight/spectral-functions"
 import common from "./az-common"
+import apiVersionPatternValidation from "./functions/api-version-pattern-validation"
 import verifyArmPath from "./functions/arm-path-validation"
 import bodyParamRepeatedInfo from "./functions/body-param-repeated-info"
 import { camelCase } from "./functions/camel-case"
@@ -1114,17 +1115,14 @@ const ruleset: any = {
     },
     APIVersionPattern: {
       description:
-        "The API Version parameter MUST be in the Year-Month-Date format (i.e. 2016-07-04.)  NOTE that this is the en-US ordering of month and date.",
+        "The API Version parameter MUST be in the Year-Month-Date format (i.e. 2016-07-04.) or 'canonical'. NOTE that this is the en-US ordering of month and date.",
       severity: "error",
       message: "{{description}}",
       resolved: true,
       formats: [oas2],
-      given: "$.info.version",
+      given: "$.info",
       then: {
-        function: pattern,
-        functionOptions: {
-          match: "^(20\\d{2})-(0[1-9]|1[0-2])-((0[1-9])|[12][0-9]|3[01])(-(preview))?$",
-        },
+        function: apiVersionPatternValidation,
       },
     },
     ParameterNotDefinedInGlobalParameters: {
