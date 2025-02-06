@@ -32,6 +32,10 @@
 - [How to verify which Spectral rules are running in Production and Staging LintDiff](#how-to-verify-which-spectral-rules-are-running-in-production-and-staging-lintdiff)
 - [Installing NPM dependencies](#installing-npm-dependencies)
 - [How to test](#how-to-test)
+  - [Run all tests](#run-all-tests)
+  - [Run a single test](#run-a-single-test)
+  - [Debugging tests](#debugging-tests)
+  - [Error running Nimma](#error-running-nimma)
 - [How to write a new validation rule using typescript](#how-to-write-a-new-validation-rule-using-typescript)
   - [Spectral rule](#spectral-rule)
   - [Native rule](#native-rule)
@@ -555,11 +559,65 @@ using the command line.
 
 # How to test
 
-To run all tests under the repo
+## Run all tests
+
+To run all tests under the repo:
 
 ```bash
 rush test
 ```
+
+This runs both the `test-spectral` and `test-native` scripts as defined in `packages\azure-openapi-validator\core\package.json`.
+
+## Run a single test
+
+To run a single spectral test:
+
+```bash
+cd packages/rulesets
+npm run test-spectral -- /path/to/test.test.ts
+```
+
+To run a single native test:
+
+```bash
+cd packages/rulesets
+npm run test-native -- /path/to/test.test.ts
+```
+
+## Debugging tests
+
+To debug a test, make sure you set a breakpoint and use a Javascript Debug Terminal when running the test. See
+[Run a single test](#run-a-single-test) to debug one test at a time.
+
+This project uses [Jest](https://jestjs.io/) for running tests. See [the Jest docs](https://jestjs.io/docs/cli) for more
+CLI options, such as `watch` and coverage collection options.
+
+## Error running Nimma
+
+While running your test locally, if you run into an error with text:
+
+> Error running Nimma
+
+Try wrapping the `linter.run()` call in a try/catch block. This might help you determine where the error is coming from.
+Remember to remove the try/catch block afterwards as it will interfere with test logic. See the code example below:
+
+```typescript
+let result
+try {
+  result = await linter.run(oasDoc).then((results) => {
+    const paths = Object.keys(oasDoc.paths)
+    expect(results.length).toBe(2)
+  })
+} catch (error) {
+  if (error && error.errors && Array.isArray(error.errors)) {
+    throw new Error(`Errors found. ${error.errors}`)
+  }
+}
+return result
+```
+
+This is an error from Spectral, which uses Nimma. See more [here](https://github.com/Azure/azure-sdk-tools/issues/6856).
 
 # How to write a new validation rule using typescript
 

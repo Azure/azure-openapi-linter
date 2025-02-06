@@ -7,7 +7,7 @@ parserOptions:
   # To silence VS Code ESLint error of "cannot find 'tsconfig.json'", add entries like this
   # to your "Preferences: Open User Settings (JSON)"
   #  "eslint.workingDirectories": [
-  #      {"directory": "./packages/azure-openapi-validator/autorest", "changeProcessCWD": true}
+  #      { "mode": "auto" }
   #  ],
   # This solution is based on:
   # https://github.com/typescript-eslint/typescript-eslint/issues/251#issuecomment-521142325
