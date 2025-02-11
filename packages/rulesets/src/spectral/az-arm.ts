@@ -2,6 +2,7 @@ import { oas2 } from "@stoplight/spectral-formats"
 import { falsy, pattern, truthy } from "@stoplight/spectral-functions"
 import common from "./az-common"
 import verifyArmPath from "./functions/arm-path-validation"
+import avoidFreeFormObjects from "./functions/avoid-free-form-objects"
 import bodyParamRepeatedInfo from "./functions/body-param-repeated-info"
 import { camelCase } from "./functions/camel-case"
 import collectionObjectPropertiesNaming from "./functions/collection-object-properties-naming"
@@ -1045,6 +1046,23 @@ const ruleset: any = {
       given: "$.[paths,'x-ms-paths']",
       then: {
         function: operationsApiTenantLevelOnly,
+      },
+    },
+
+    ///
+    /// ARM RPC rules for Policy
+    ///
+
+    // RPC Code: RPC-Policy-V1-03
+    AvoidFreeFormObjects: {
+      description: "Per ARM PRC guidelines free-form objects should be avoided",
+      message: "{{error}}",
+      severity: "error",
+      resolved: true,
+      formats: [oas2],
+      given: "$.definitions",
+      then: {
+        function: avoidFreeFormObjects,
       },
     },
 
